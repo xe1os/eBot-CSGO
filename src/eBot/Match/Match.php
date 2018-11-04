@@ -2827,9 +2827,9 @@ class Match implements Taskable {
             "LIVE" => array( "restartMethod" => "lo3", "eslAnnounce" => "1st Side: LIVE!" )
         );
 
-        if (\eBot\Config\Config::getInstance()->getKo3Method() == "csay" && $this->pluginCsay) {
+        if ($this->pluginCsay && (($type === "KNIFE" && \eBot\Config\Config::getInstance()->getKo3Method() === "csay") || ($type === "LIVE" && \eBot\Config\Config::getInstance()->getLo3Method() === "csay"))) {
             $this->rcon->send("csay_" . $types["$type"]["restartMethod"]);
-        } elseif (\eBot\Config\Config::getInstance()->getKo3Method() == "esl" && $this->pluginESL) {
+        } elseif ($this->pluginESL && (($type === "KNIFE" && \eBot\Config\Config::getInstance()->getKo3Method() === "esl") || ($type === "LIVE" && \eBot\Config\Config::getInstance()->getLo3Method() === "esl"))) {
             $this->rcon->send("esl_" . $types["$type"]["restartMethod"]);
             $this->say($types["$type"]["eslAnnounce"]);
         } else {

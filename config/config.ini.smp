@@ -25,7 +25,7 @@ PAUSE_METHOD = "nextRound" ; nextRound or instantConfirm or instantNoConfirm
 NODE_STARTUP_METHOD = "node" ; binary file name or none in case you are starting it with forever or manually
 
 [Match]
-LO3_METHOD = "restart" ; restart or csay or esl
+LO3_METHOD = "csay" ; restart or csay or esl
 KO3_METHOD = "restart" ; restart or csay or esl
 DEMO_DOWNLOAD = true ; true or false :: whether gotv demos will be downloaded from the gameserver after matchend or not
 REMIND_RECORD = false ; true will print the 3x "Remember to record your own POV demos if needed!" messages, false will not
