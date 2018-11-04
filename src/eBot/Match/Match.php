@@ -1703,14 +1703,14 @@ class Match implements Taskable {
                             (`match_id`,`map_id`,`score_a`,`score_b`,`bomb_planted`,`bomb_defused`,`bomb_exploded`,`ct_win`, `t_win`,`round_id`,`win_type`,`team_win`,`best_killer`,`best_killer_fk`,`best_killer_nb`,`best_action_type`,`best_action_param`, `backup_file_name`,`created_at`,`updated_at`)
                             VALUES
                             ('" . $this->match_id . "', '" . $this->currentMap->getMapId() . "', '" . $this->score["team_a"] . "', '" . $this->score["team_b"] . "',
-                                '" . ($this->gameBombPlanter != null) . "',
-                                    '" . ($message->type == "bombdefused") . "',
-                                        '" . ($message->type == "bombeexploded") . "',
-                                            '" . ($message->getTeamWin() == "CT") . "',
-                                                '" . ($message->getTeamWin() != "CT") . "',
+                                '" . (int)($this->gameBombPlanter != null) . "',
+                                    '" . (int)($message->type == "bombdefused") . "',
+                                        '" . (int)($message->type == "bombeexploded") . "',
+                                            '" . (int)($message->getTeamWin() == "CT") . "',
+                                                '" . (int)($message->getTeamWin() != "CT") . "',
                                                     '" . ($this->getNbRound() - 1) . "',
                                                         '" . $message->type . "','" . $teamWin . "',
-                                                            $playerId, " . $playerFirstKill . ", $nb, " . (($bestActionType != null) ? "'$bestActionType'" : "NULL") . ", " . (($bestActionParam != null) ? "'" . addslashes(serialize($bestActionParam)) . "'" : "NULL") . ",
+                                                            $playerId, " . (int)$playerFirstKill . ", $nb, " . (($bestActionType != null) ? "'$bestActionType'" : "NULL") . ", " . (($bestActionParam != null) ? "'" . addslashes(serialize($bestActionParam)) . "'" : "NULL") . ",
                                                                 " . $backupFile . ",
                                                                 NOW(),
                                                                     NOW()
