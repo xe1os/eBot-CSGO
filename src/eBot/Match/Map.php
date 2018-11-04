@@ -30,7 +30,7 @@ class Map {
     const STATUS_MAP_ENDED = 13;
 
     private $map_id = 0;
-    private $map_name = "de_dust2_se";
+    private $map_name = "de_dust2";
     private $score1 = 0;
     private $score2 = 0;
     private $current_side = "ct";
