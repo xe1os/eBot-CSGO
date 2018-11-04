@@ -1242,6 +1242,7 @@ class Match implements Taskable {
                 }
 
                 if ($this->restart["ct"] && $this->restart["t"]) {
+                    $this->rcon->send("mp_unpause_match");
                     $this->ready["ct"] = true;
                     $this->ready["t"] = true;
 
