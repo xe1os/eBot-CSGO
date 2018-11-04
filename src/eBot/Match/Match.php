@@ -2804,7 +2804,7 @@ class Match implements Taskable {
 
     private function executeKnifeConfig() {
         $this->say("Executing knife config.");
-        $this->rcon->send("mp_halftime_duration 1; mp_roundtime 60; mp_roundtime_defuse 60; mp_roundtime_hostage 60; mp_ct_default_secondary ''; mp_t_default_secondary ''; mp_free_armor 1; mp_give_player_c4 0; mp_maxmoney 0");
+        $this->rcon->send("mp_halftime_duration 1; mp_roundtime 60; mp_roundtime_defuse 60; mp_roundtime_hostage 60; mp_ct_default_secondary ''; mp_t_default_secondary ''; mp_free_armor 2; mp_give_player_c4 0; mp_maxmoney 0");
         return $this;
     }
 
@@ -2814,7 +2814,7 @@ class Match implements Taskable {
     }
 
     private function executeWarmupConfig() {
-        $this->rcon->send("mp_warmuptime 3600; mp_warmup_pausetimer 1; mp_maxmoney 60000; mp_startmoney 60000; mp_free_armor 1; mp_warmup_start");
+        $this->rcon->send("mp_warmuptime 3600; mp_warmup_pausetimer 1; mp_maxmoney 60000; mp_startmoney 60000; mp_free_armor 2; mp_warmup_start");
         return $this;
     }
 
@@ -3052,6 +3052,7 @@ class Match implements Taskable {
             $this->ready["t"] = false;
             $this->currentMap->setStatus(Map::STATUS_WU_1_SIDE, true);
             $this->setStatus(self::STATUS_WU_1_SIDE, true);
+            $this->undoKnifeConfig();
             if (\eBot\Config\Config::getInstance()->getConfigKnifeMethod() == "knifestart")
                 $this->forceRoundStartRecord = true;
             return true;
@@ -3159,6 +3160,7 @@ class Match implements Taskable {
             $this->ready["t"] = false;
             $this->currentMap->setStatus(Map::STATUS_WU_1_SIDE, true);
             $this->setStatus(self::STATUS_WU_1_SIDE, true);
+            $this->undoKnifeConfig();
             return true;
         }
     }
