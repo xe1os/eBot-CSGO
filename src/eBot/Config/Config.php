@@ -25,9 +25,9 @@ class Config extends Singleton
     private $mysql_base;
     private $bot_ip;
     private $bot_port;
-	private $sslEnabled;
-	private $sslCertPath;
-	private $sslKeyPath;
+    private $sslEnabled;
+    private $sslCertPath;
+    private $sslKeyPath;
     private $messages = array();
     private $record_name = "ebot";
     private $delay_busy_server = 90;
@@ -62,9 +62,9 @@ class Config extends Singleton
 
             $this->bot_ip = $config["BOT_IP"];
             $this->bot_port = $config["BOT_PORT"];
-	        $this->sslEnabled = $config["SSL_ENABLED"];
-	        $this->sslCertPath = $config["SSL_CERTIFICATE_PATH"];
-	        $this->sslKeyPath = $config["SSL_KEY_PATH"];
+            $this->sslEnabled = $config["SSL_ENABLED"];
+            $this->sslCertPath = $config["SSL_CERTIFICATE_PATH"];
+            $this->sslKeyPath = $config["SSL_KEY_PATH"];
 
             $this->delay_busy_server = $config["DELAY_BUSY_SERVER"];
 
@@ -117,11 +117,11 @@ class Config extends Singleton
     }
 
 
-    public function scanAdvertising()
+    public function scanAdvertising($mysqli_link)
     {
         unset($this->advertising);
-        $q = \mysql_query("SELECT a.`season_id`, a.`message`, s.`name` FROM `advertising` a LEFT JOIN `seasons` s ON a.`season_id` = s.`id` WHERE a.`active` = 1");
-        while ($row = mysql_fetch_array($q, MYSQL_ASSOC)) {
+        $q = \mysqli_query($mysqli_link, "SELECT a.`season_id`, a.`message`, s.`name` FROM `advertising` a LEFT JOIN `seasons` s ON a.`season_id` = s.`id` WHERE a.`active` = 1");
+        while ($row = mysqli_fetch_array($q, MYSQL_ASSOC)) {
             $this->advertising['message'][] = $row['message'];
             if ($row['season_id'] == null) {
                 $row['season_id'] = 0;
@@ -237,38 +237,38 @@ class Config extends Singleton
         $this->bot_port = $bot_port;
     }
 
-	public function isSSLEnabled()
-	{
-		return $this->sslEnabled;
-	}
+    public function isSSLEnabled()
+    {
+        return $this->sslEnabled;
+    }
 
-	public function setSSLEnabled($sslEnabled)
-	{
-		$this->sslEnabled = $sslEnabled;
-		return $this;
-	}
+    public function setSSLEnabled($sslEnabled)
+    {
+        $this->sslEnabled = $sslEnabled;
+        return $this;
+    }
 
-	public function getSSLCertificatePath()
-	{
-		return $this->sslCertPath;
-	}
+    public function getSSLCertificatePath()
+    {
+        return $this->sslCertPath;
+    }
 
-	public function setSSLCertificatePath($sslCertificatePath)
-	{
-		$this->sslCertPath = $sslCertificatePath;
-		return $this;
-	}
+    public function setSSLCertificatePath($sslCertificatePath)
+    {
+        $this->sslCertPath = $sslCertificatePath;
+        return $this;
+    }
 
-	public function getSSLKeyPath()
-	{
-		return $this->sslKeyPath;
-	}
+    public function getSSLKeyPath()
+    {
+        return $this->sslKeyPath;
+    }
 
-	public function setSSLKeyPath($sslKeyPath)
-	{
-		$this->sslKeyPath = $sslKeyPath;
-		return $this;
-	}
+    public function setSSLKeyPath($sslKeyPath)
+    {
+        $this->sslKeyPath = $sslKeyPath;
+        return $this;
+    }
 
     public function getMessages()
     {
