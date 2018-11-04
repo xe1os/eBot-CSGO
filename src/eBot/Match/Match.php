@@ -2243,6 +2243,7 @@ class Match implements Taskable {
         $this->processPlayer($message->getUserId(), $message->getUserName(), $message->joinTeam, $message->getUserSteamid());
         $this->addLog("Player: '" . $message->userName . "' joined team: '" . $message->joinTeam . "'.");
         $this->addMatchLog(htmlentities("Player: '" . $message->userName . "' joined team: '" . $message->joinTeam . "'."));
+		$this->rcon->send("bot_kick");
     }
 
     private function processDisconnected(\eBot\Message\Type\Disconnected $message) {
