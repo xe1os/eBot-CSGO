@@ -112,7 +112,7 @@ server.listen(udp_port, function() {
 
 var io = require('socket.io').listen(server);
 
-io.set('log level', 0);
+//io.set('log level', 0);
 
 io.sockets.on('connection', function(socket) {
     socket.taggedLogger = false;
