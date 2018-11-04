@@ -184,12 +184,18 @@ io.sockets.on('connection', function(socket) {
     });
 
     socket.on('disconnect', function(data) {
-        if (socket.taggedLogger) {
-            if (io.sockets.clients('loggers').length == 1) {
-                var dgram = new Buffer("__false__");
-                clientUDP.send(dgram, 0, dgram.length, udp_port, udp_ip);
-            }
-        }
+		try {
+			if (socket.taggedLogger) {
+				if (io.of('/').in('loggers').clients.length == 1) {
+					var dgram = new Buffer("__false__");
+					clientUDP.send(dgram, 0, dgram.length, udp_port, udp_ip);
+				}
+			}
+		} catch(e) {
+			console.error(e.name);
+			console.error(e.message);
+			console.error(e.stack);
+		}
     });
 
     socket.on('rconSend', function(data) {
