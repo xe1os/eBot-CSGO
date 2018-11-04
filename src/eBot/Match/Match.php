@@ -733,7 +733,7 @@ class Match implements Taskable {
                     } elseif ($this->mapIsEngaged && (!$this->streamerReady || $this->config_streamer)) {
                         $messages [] = "Streamers are not ready yet!";
                     } else {
-                        $messages [] = "Please write " . $this->formatText("!map mapname", "yellow") . "to select the map!";
+                        $messages [] = "Please write " . $this->formatText("!pick mapname", "yellow") . "to select the map!";
                         $maps = \eBot\Config\Config::getInstance()->getMaps();
                         foreach ($maps as $map) {
                             $mapmessage .= "$map, ";
@@ -1097,7 +1097,7 @@ class Match implements Taskable {
         $user = $this->processPlayer($message->getUserId(), $message->getUserName(), $message->getUserTeam(), $message->getUserSteamid());
 
         $text = trim($message->getText());
-        if (preg_match('/\!map (?<mapname>.*)/i', $text, $preg)) {
+        if (preg_match('/\!pick (?<mapname>.*)/i', $text, $preg)) {
             if (!$this->mapIsEngaged && (( $this->getStatus() == self::STATUS_WU_KNIFE && $this->config_kniferound ) || ( $this->getStatus() == self::STATUS_WU_1_SIDE && !$this->config_kniferound ))) {
                 $this->addLog($message->getUserName() . " (" . $message->getUserTeam() . ") wants to play '" . $preg['mapname'] . "'.");
                 Logger::log($message->getUserName() . " (" . $message->getUserTeam() . ") wants to play '" . $preg['mapname'] . "'.");
@@ -1109,6 +1109,7 @@ class Match implements Taskable {
                         $this->say($team . " (CT) wants to play '" . $this->formatText($preg['mapname'], "green") . "'.");
                     } else {
                         $this->say("Map: '" . $preg['mapname'] . "' was not found! Available maps are:");
+                        $mapmessage = "";
                         foreach ($maps as $map) {
                             $mapmessage .= "$map, ";
                         }
@@ -1123,6 +1124,7 @@ class Match implements Taskable {
                         $this->say($team . " (T) wants to play '" . $this->formatText($preg['mapname'], "green") . "'.");
                     } else {
                         $this->say($preg['mapname'] . " was not found! Available maps are:");
+                        $mapmessage = "";
                         foreach ($maps as $map) {
                             $mapmessage .= "$map, ";
                         }
