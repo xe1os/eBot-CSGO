@@ -1897,8 +1897,8 @@ class Match implements Taskable {
                 $this->say("Final score: " . $this->score["team_a"] . " - " . $this->score["team_b"] . " - Draw!");
                 $this->addMatchLog("Final score: " . $this->score["team_a"] . " - " . $this->score["team_b"] . " - Draw!");
             }
-            $this->rcon->send("mp_teamname_1 \"\"; mp_teamflag_1 \"\";");
-            $this->rcon->send("mp_teamname_2 \"\"; mp_teamflag_2 \"\";");
+            //$this->rcon->send("mp_teamname_1 \"\"; mp_teamflag_1 \"\";");
+            //$this->rcon->send("mp_teamname_2 \"\"; mp_teamflag_2 \"\";");
 
             $this->websocket['match']->sendData(json_encode(array('message' => 'status', 'content' => $this->getStatusText(false), 'id' => $this->match_id)));
 
@@ -3010,8 +3010,8 @@ class Match implements Taskable {
         $this->addMatchLog("Match stopped by admin.");
         $this->say("Match stopped by admin.", "red");
 
-        $this->rcon->send("mp_teamname_1 \"\"; mp_teamflag_2 \"\";");
-        $this->rcon->send("mp_teamname_2 \"\"; mp_teamflag_1 \"\";");
+        //$this->rcon->send("mp_teamname_1 \"\"; mp_teamflag_2 \"\";");
+        //$this->rcon->send("mp_teamname_2 \"\"; mp_teamflag_1 \"\";");
         $this->rcon->send("exec server.cfg");
 
 
@@ -3028,7 +3028,7 @@ class Match implements Taskable {
         $this->rcon->send("mp_restartgame 1");
 
         $this->rcon->send("exec server.cfg");
-        $this->rcon->send("mp_teamname_1 \"\"; mp_teamname_2 \"\"; mp_teamflag_1 \"\"; mp_teamflag_2 \"\"");
+        //$this->rcon->send("mp_teamname_1 \"\"; mp_teamname_2 \"\"; mp_teamflag_1 \"\"; mp_teamflag_2 \"\"");
 
         mysql_query("UPDATE `matchs` SET enable = 0, auto_start = 0 WHERE id = '" . $this->match_id . "'");
         $this->needDel = true;
