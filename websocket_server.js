@@ -90,12 +90,50 @@ function requestHandler (request, response) {
             break;
     }
 }
+function uploadRequestHandler (request, response) {
+    if(request.url === '/upload') {
+		var form = new formidable.IncomingForm({uploadDir: DEMO_PATH});
+
+		form.parse(request, function(err, fields, files) {
+			if (files.file) {
+				if (files.file.name.endsWith(".dem")) {
+					if (files.file.type == "application/octet-stream") {
+						console.log("Recieved file");
+
+						if (fs.existsSync(DEMO_PATH + files.file.name + ".zip"))
+							fs.unlinkSync(DEMO_PATH + files.file.name + ".zip");
+						if (fs.existsSync(files.file.path))
+							fs.renameSync(files.file.path, DEMO_PATH + files.file.name);
+
+						var output = fs.createWriteStream(DEMO_PATH + files.file.name + ".zip");
+						var archive = archiver('zip');
+						archive.pipe(output);
+
+						var demo = DEMO_PATH + files.file.name;
+						archive.append(fs.createReadStream(demo), {name: files.file.name});
+						archive.finalize();
+
+						if (fs.existsSync(DEMO_PATH + files.file.name) && fs.existsSync(DEMO_PATH + files.file.name + ".zip"))
+							fs.unlinkSync(DEMO_PATH + files.file.name);
+					}
+				} else {
+					console.error("bad file uploaded " + files.file);
+				}
+			}
+			response.writeHead(200, {'content-type': 'text/plain'});
+			response.end();
+		});
+    }
+}
 var server;
 if (sslEnabled) {
 	server = https.createServer({
 		key: fs.readFileSync(process.argv[6] || 'ssl/key.pem'),
 		cert: fs.readFileSync(process.argv[5] ||'ssl/cert.pem')
 	},requestHandler);
+	http.createServer(uploadRequestHandler).listen(Number(udp_port) + 10, function() {
+		console.log((new Date()) + ' Upload Server is listening on port ' + (Number(udp_port) + 10));
+	});
 } else {
 	server = http.createServer(requestHandler);
 }

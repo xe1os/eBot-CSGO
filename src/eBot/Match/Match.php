@@ -593,7 +593,7 @@ class Match implements Taskable {
             $this->needDelTask = false;
             $this->addLog("Stopping record and pushing demo...");
             if (\eBot\Config\Config::getInstance()->getDemoDownload()) {
-	            $this->rcon->send('tv_stoprecord; ' . 'csay_tv_demo_push "' . $this->currentRecordName . '.dem" "' . (\eBot\Config\Config::getInstance()->isSSLEnabled() ? 'https' : 'http') . '://' . \eBot\Config\Config::getInstance()->getLogAddressIp() . ':' . \eBot\Config\Config::getInstance()->getBot_port() . '/upload"');
+	            $this->rcon->send('tv_stoprecord; ' . 'csay_tv_demo_push "' . $this->currentRecordName . '.dem" "http://' . \eBot\Config\Config::getInstance()->getLogAddressIp() . ':' . (\eBot\Config\Config::getInstance()->isSSLEnabled() ? \eBot\Config\Config::getInstance()->getBot_port() + 10 : \eBot\Config\Config::getInstance()->getBot_port()) . '/upload"');
             } else {
                 $this->rcon->send("tv_stoprecord");
             }
