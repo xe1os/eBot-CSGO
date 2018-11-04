@@ -63,7 +63,7 @@ class Match implements Taskable {
     private $gameBombDefuser = null;
     private $enable = true;
     private $userToEnter;
-    private $nbLast = array("nb_max_ct" => 0, "nb_max_t" => 0, "nb_ct" => 0, "nb_ct" => 0);
+    private $nbLast = array("nb_max_ct" => 0, "nb_max_t" => 0, "nb_ct" => 0, "nb_t" => 0);
     private $winKnife = "";
     private $winKnifeTeamName = "";
     private $needDel = false;
