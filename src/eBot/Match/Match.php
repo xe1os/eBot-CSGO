@@ -2103,6 +2103,12 @@ class Match implements Taskable {
                 $this->roundData[$this->getNbRound()][$message->attackerTeam]["DAMAGE_DONE"][$message->attackerName][$message->victimName]["HITS"] += 1;
                 $this->roundData[$this->getNbRound()][$message->victimTeam]["DAMAGE_TAKEN"][$message->victimName][$message->attackerName]["DAMAGE"] += $message->attackerDamage;
                 $this->roundData[$this->getNbRound()][$message->victimTeam]["DAMAGE_TAKEN"][$message->victimName][$message->attackerName]["HITS"] += 1;
+                $attacker = $this->processPlayer($message->attackerUserId, $message->attackerName, $message->attackerTeam, $message->attackerSteamId);
+                $attacker->inc("damage_given", $message->attackerDamage);
+                $attacker->save();
+                $victim = $this->processPlayer($message->victimUserId, $message->victimName, $message->victimTeam, $message->victimSteamId);
+                $victim->inc("damage_taken", $message->attackerDamage);
+                $victim->save();
             }
 
 //            $this->say($message->attackerName . " (" . $message->attackerTeam . ") hit " . $message->victimName . " (" . $message->victimTeam . ") for " . $message->attackerDamage . " in round " . $this->getNbRound() . " (hp left: " . $this->roundData[$this->getNbRound()]["HEALTH_LEFT"][$message->victimName] . ") with " . $message->attackerWeapon . " hit in " . $message->attackerHitGroup);

@@ -45,6 +45,8 @@ class Player {
     private $k3 = 0;
     private $k4 = 0;
     private $k5 = 0;
+    private $damage_given = 0;
+    private $damage_taken = 0;
     private $firstSide = "";
     private $checkBDD = false;
     private $gotFirstKill = false;
@@ -82,6 +84,8 @@ class Player {
             $this->k3 = $req['nb3kill'];
             $this->k4 = $req['nb4kill'];
             $this->k5 = $req['nb5kill'];
+            $this->damage_given = $req['damage_given'];
+            $this->damage_taken = $req['damage_taken'];
             $this->firstKill = $req['firstkill'];
         } else {
             Logger::log("Creating players " . $this->steamid . " on match " . $this->match_id);
@@ -211,6 +215,8 @@ class Player {
                     point = '" . $this->point . "',
                     tk = '" . $this->tk . "', 
                     firstkill='" . $this->firstKill . "',
+                    damage_given='" . $this->damage_given . "',
+                    damage_taken='" . $this->damage_taken . "',
                     updated_at = NOW()
                       
                  WHERE id='" . $this->mysql_id . "'";
@@ -234,9 +240,9 @@ class Player {
         @\mysql_query("DELETE FROM players_snapshot WHERE player_id = '" . $this->mysql_id . "' AND round_id='" . $round . "'");
 
         \mysql_query("INSERT INTO players_snapshot 
-            (`player_id`,`nb_kill`,`death`,`assist`,`point`,`hs`,`defuse`,`bombe`,`tk`,`nb1`,`nb2`,`nb3`,`nb4`,`nb5`,`nb1kill`,`nb2kill`,`nb3kill`,`nb4kill`,`nb5kill`,`firstkill`,`round_id`,`created_at`,`updated_at`)
+            (`player_id`,`nb_kill`,`death`,`assist`,`point`,`hs`,`defuse`,`bombe`,`tk`,`nb1`,`nb2`,`nb3`,`nb4`,`nb5`,`nb1kill`,`nb2kill`,`nb3kill`,`nb4kill`,`nb5kill`,`firstkill`,`round_id`,`damage_given`,`damage_taken`,`created_at`,`updated_at`)
             VALUES
-            ({$this->mysql_id}, {$this->kill}, {$this->death}, {$this->assist}, {$this->point}, {$this->hs}, {$this->defuse}, {$this->bombe}, {$this->tk}, {$this->v1}, {$this->v2}, {$this->v3}, {$this->v4}, {$this->v5}, {$this->k1}, {$this->k2}, {$this->k3}, {$this->k4}, {$this->k5}, {$this->firstKill}, {$round}, NOW(), NOW())") or Logger::error("Error while snapshoting");
+            ({$this->mysql_id}, {$this->kill}, {$this->death}, {$this->assist}, {$this->point}, {$this->hs}, {$this->defuse}, {$this->bombe}, {$this->tk}, {$this->v1}, {$this->v2}, {$this->v3}, {$this->v4}, {$this->v5}, {$this->k1}, {$this->k2}, {$this->k3}, {$this->k4}, {$this->k5}, {$this->firstKill}, {$round}, {$this->damage_given}, {$this->damage_taken}, NOW(), NOW())") or Logger::error("Error while snapshoting");
     }
 
     public function restoreSnapshot($round) {
@@ -262,6 +268,8 @@ class Player {
             $this->k3 = $req['nb3kill'];
             $this->k4 = $req['nb4kill'];
             $this->k5 = $req['nb5kill'];
+            $this->damage_given = $req['damage_given'];
+            $this->damage_taken = $req['damage_taken'];
             $this->firstKill = $req['firstkill'];
         } else {
             Logger::log("Snapshot not found for " . $this->steamid . " from match " . $this->match_id . " for round " . $round);
