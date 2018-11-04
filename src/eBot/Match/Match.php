@@ -1480,7 +1480,7 @@ class Match implements Taskable {
     private function processRoundScored(\eBot\Message\Type\RoundScored $message) {
         $this->addLog("RoundScore : " . $message->getTeamWin());
 
-        if ($this->getStatus() == self::STATUS_KNIFE) {
+        if ($this->getStatus() == self::STATUS_KNIFE && $this->enable) {
             $this->winKnife = ($message->getTeamWin() == "T") ? "TERRORIST" : $message->getTeamWin();
             $this->addLog($message->getTeamWin() . " won the knife round.");
 
