@@ -1387,12 +1387,14 @@ class Match implements Taskable {
                 $this->unpauseMatch();
             }
         } elseif (($this->getStatus() == self::STATUS_END_KNIFE) && ($message->getUserTeam() == $this->winKnife) && $this->isCommand($message, "stay")) {
+            $this->rcon->send("mp_unpause_match");
             $this->setStatus(self::STATUS_WU_1_SIDE, true);
             $this->currentMap->setStatus(Map::STATUS_WU_1_SIDE, true);
 
             $this->undoKnifeConfig()->executeMatchConfig()->executeWarmupConfig();
             $this->say("Nothing changed, going to warmup!");
         } elseif (($this->getStatus() == self::STATUS_END_KNIFE) && ($message->getUserTeam() == $this->winKnife) && ($this->isCommand($message, "switch") || $this->isCommand($message, "swap"))) {
+            $this->rcon->send("mp_unpause_match");
             $this->setStatus(self::STATUS_WU_1_SIDE, true);
             $this->currentMap->setStatus(Map::STATUS_WU_1_SIDE, true);
 
@@ -1496,6 +1498,7 @@ class Match implements Taskable {
             $this->say("$team won the knife, choose side by saying: !stay or !switch.", "ltGreen");
 
             $this->roundEndEvent = true;
+            $this->rcon->send("mp_pause_match");
             return;
         }
 
