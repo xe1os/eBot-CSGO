@@ -100,6 +100,8 @@ class Match implements Taskable {
     private $teamBName;
     private $teamAFlag;
     private $teamBFlag;
+    private $teamALogo;
+    private $teamBLogo;
     private $rconPassword;
     private $isPaused;
     private $backupFile;
@@ -145,10 +147,12 @@ class Match implements Taskable {
         $teama_details = $this->getTeamDetails($this->matchData["team_a"], "a");
         $this->teamAName = $teama_details['name'];
         $this->teamAFlag = $teama_details['flag'];
+        $this->teamALogo = $teama_details['logo'];
 
         $teamb_details = $this->getTeamDetails($this->matchData["team_b"], "b");
         $this->teamBName = $teamb_details['name'];
         $this->teamBFlag = $teamb_details['flag'];
+        $this->teamBLogo = $teamb_details['logo'];
 
         $this->season_id = $this->matchData["season_id"];
 
@@ -533,9 +537,9 @@ class Match implements Taskable {
             return $ds;
         } else {
             if ($t == "a") {
-                return array("name" => $this->matchData['team_a_name'], "flag" => $this->matchData['team_a_flag']);
+                return array("name" => $this->matchData['team_a_name'], "flag" => $this->matchData['team_a_flag'], "logo" => $this->matchData['team_a_logo']);
             } elseif ($t == "b") {
-                return array("name" => $this->matchData['team_b_name'], "flag" => $this->matchData['team_b_flag']);
+                return array("name" => $this->matchData['team_b_name'], "flag" => $this->matchData['team_b_flag'], "logo" => $this->matchData['team_b_logo']);
             }
         }
     }
@@ -1930,8 +1934,8 @@ class Match implements Taskable {
                 $this->say("Final score: " . $this->score["team_a"] . " - " . $this->score["team_b"] . " - Draw!");
                 $this->addMatchLog("Final score: " . $this->score["team_a"] . " - " . $this->score["team_b"] . " - Draw!");
             }
-            //$this->rcon->send("mp_teamname_1 \"\"; mp_teamflag_1 \"\";");
-            //$this->rcon->send("mp_teamname_2 \"\"; mp_teamflag_2 \"\";");
+            //$this->rcon->send("mp_teamname_1 \"\"; mp_teamflag_1 \"\"; mp_teamlogo_1 \"\";");
+            //$this->rcon->send("mp_teamname_2 \"\"; mp_teamflag_2 \"\"; mp_teamlogo_2 \"\";");
 
             $this->websocket['match']->sendData(json_encode(array('message' => 'status', 'content' => $this->getStatusText(false), 'id' => $this->match_id)));
 
@@ -3066,8 +3070,8 @@ class Match implements Taskable {
         $this->addMatchLog("Match stopped by admin.");
         $this->say("Match stopped by admin.", "red");
 
-        //$this->rcon->send("mp_teamname_1 \"\"; mp_teamflag_2 \"\";");
-        //$this->rcon->send("mp_teamname_2 \"\"; mp_teamflag_1 \"\";");
+        //$this->rcon->send("mp_teamname_1 \"\"; mp_teamflag_2 \"\"; mp_teamlogo_1 \"\";");
+        //$this->rcon->send("mp_teamname_2 \"\"; mp_teamflag_1 \"\"; mp_teamlogo_2 \"\";");
         $this->rcon->send("exec server.cfg");
 
 
@@ -3084,7 +3088,7 @@ class Match implements Taskable {
         $this->rcon->send("mp_restartgame 1");
 
         $this->rcon->send("exec server.cfg");
-        //$this->rcon->send("mp_teamname_1 \"\"; mp_teamname_2 \"\"; mp_teamflag_1 \"\"; mp_teamflag_2 \"\"");
+        //$this->rcon->send("mp_teamname_1 \"\"; mp_teamname_2 \"\"; mp_teamflag_1 \"\"; mp_teamflag_2 \"\"; mp_teamlogo_1 \"\"; mp_teamlogo_2 \"\"");
 
         mysql_query("UPDATE `matchs` SET enable = 0, auto_start = 0 WHERE id = '" . $this->match_id . "'");
         $this->needDel = true;
@@ -3432,11 +3436,15 @@ class Match implements Taskable {
             $this->rcon->send("mp_teamname_2 \"" . $this->teamBName . "\"");
             $this->rcon->send("mp_teamflag_1 \"" . $this->teamAFlag . "\"");
             $this->rcon->send("mp_teamflag_2 \"" . $this->teamBFlag . "\"");
+            $this->rcon->send("mp_teamlogo_1 \"" . $this->teamALogo . "\""); 
+            $this->rcon->send("mp_teamlogo_2 \"" . $this->teamBLogo . "\"");
         } else {
             $this->rcon->send("mp_teamname_2 \"" . $this->teamAName . "\"");
             $this->rcon->send("mp_teamname_1 \"" . $this->teamBName . "\"");
             $this->rcon->send("mp_teamflag_2 \"" . $this->teamAFlag . "\"");
             $this->rcon->send("mp_teamflag_1 \"" . $this->teamBFlag . "\"");
+            $this->rcon->send("mp_teamlogo_2 \"" . $this->teamALogo . "\""); 
+            $this->rcon->send("mp_teamlogo_1 \"" . $this->teamBLogo . "\"");
         }
     }
 
