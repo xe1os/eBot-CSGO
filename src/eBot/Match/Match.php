@@ -435,7 +435,7 @@ class Match implements Taskable {
 
         if ($this->pluginPrintPlayers) {
             $this->addLog("Getting status for players.");
-            $text = $this->rcon->send("steamu_printPlayer");
+            $text = $this->rcon->send("ebot_print_player");
             $texts = explode("\n", trim($text));
             foreach ($texts as $v) {
                 if (preg_match('!#(\d+) "(.*)" (.*) (\d+) (\d+).(\d+).(\d+).(\d+)!', $v, $arr)) {
