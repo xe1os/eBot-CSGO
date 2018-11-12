@@ -1258,7 +1258,7 @@ class Match implements Taskable {
                     $this->currentMap->setStatus(Map::STATUS_WU_KNIFE);
 
                     $this->restart["ct"] = false;
-                    $this->restart["ct"] = false;
+                    $this->restart["t"] = false;
 
                     $this->addMatchLog("Restarting knife round.");
                     $this->addLog("Restarting knife round.");
