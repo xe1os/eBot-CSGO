@@ -3,9 +3,9 @@
   "description": "eBot realtime websocket server",
   "author": "Julien Parodns <destro@esport-tools.net>",
   "dependencies": {
-    "formidable": "1.0.x",
-    "socket.io": "*",
-    "archiver": "0.4.x"
+    "archiver": "^0.4.10",
+    "formidable": "^1.2.1",
+    "socket.io": "^2.1.1"
   },
   "engine": "node >= 0.8.x"
 }
