@@ -69,7 +69,7 @@ class Config extends Singleton
             $this->delay_busy_server = $config["DELAY_BUSY_SERVER"];
 
             $this->maps = $config["MAP"];
-            $this->workshop = $config["WORKSHOP"];
+            //$this->workshop = $config["WORKSHOP"];
 
             $this->lo3_method = $config["LO3_METHOD"];
             $this->ko3_method = $config["KO3_METHOD"];
