@@ -19,7 +19,7 @@ cd pthreads-2.0.10
 ./configure
 make
 make install
-echo 'date.timezone = Europe/Istanbul' >> /usr/local/lib/php.ini
+echo 'date.timezone = Asia/Kolkata' >> /usr/local/lib/php.ini
 echo 'extension=pthreads.so' >> /usr/local/lib/php.ini
 
 
@@ -42,7 +42,7 @@ curl -sS https://getcomposer.org/installer | php
 php composer.phar install
 # edit config config/config.ini with IP/PORT and MySQL access
 cd /var/www
-wget https://github.com/kgns/eBot-CSGO-Web/archive/master.zip
+wget https://github.com/xe1os/eBot-CSGO-Web/archive/master.zip
 unzip master.zip
 mv eBot-CSGO-Web-master ebot
 cd ebot
